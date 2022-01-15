@@ -8,6 +8,9 @@ class WebsocketService {
   connect(topic, onConnect, onReceive, onError) {
     this.socket = new SockJS("sensors");
     this.client = Stomp.over(this.socket);
+    this.client.debug = () => {
+
+    };
     this.client.connect(
       {},
       () => {

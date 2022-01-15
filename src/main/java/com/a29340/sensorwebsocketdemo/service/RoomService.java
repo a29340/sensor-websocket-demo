@@ -1,7 +1,5 @@
 package com.a29340.sensorwebsocketdemo.service;
 
-import lombok.Getter;
-
 import com.a29340.sensorwebsocketdemo.model.Client;
 import com.a29340.sensorwebsocketdemo.model.Room;
 
@@ -10,6 +8,9 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class RoomService {
@@ -23,8 +24,12 @@ public class RoomService {
     this.roomNamesByClientId.put(client.getId(), roomName);
   }
 
-  public void removeClientFromRoom(Client client, String roomName) {
-    this.roomsByName.get(roomName).getClients().remove(client);
+  public Room removeClientFromRoom(Client client, String roomName) {
+    Room room = this.roomsByName.get(roomName);
+    Set<Client> clients = room.getClients();
+    Optional<Client> first = clients.stream().filter(c -> c.getId().equals(client.getId())).findFirst();
+    clients.remove(first.get());
+    return room;
   }
 
   public Room createRoom(String roomName) {
@@ -42,11 +47,13 @@ public class RoomService {
 
   public Room updateRoom(Client clientUpdate) {
     Room room = this.getClientRoom(clientUpdate.getId());
-    Client client = room.getClients()
-        .stream().filter(c -> c.getId().equals(clientUpdate.getId())).findAny().get();
-    client.setAlpha(clientUpdate.getAlpha());
-    client.setBeta(clientUpdate.getBeta());
-    client.setGamma(clientUpdate.getGamma());
+    if (Objects.nonNull(room)) {
+      Client client = room.getClients()
+          .stream().filter(c -> c.getId().equals(clientUpdate.getId())).findAny().get();
+      client.setAlpha(clientUpdate.getAlpha());
+      client.setBeta(clientUpdate.getBeta());
+      client.setGamma(clientUpdate.getGamma());
+    }
     return room;
   }
 }

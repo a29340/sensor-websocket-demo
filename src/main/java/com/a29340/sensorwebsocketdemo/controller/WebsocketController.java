@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 
 import lombok.extern.java.Log;
 
+import java.util.Objects;
+
 @Log
 @Controller
 public class WebsocketController {
@@ -32,6 +34,6 @@ public class WebsocketController {
   public void receive(Client clientUpdate)  throws Exception {
     log.info(String.format("Received clientUpdate from %s", clientUpdate.getId()));
     Room updatedRoom = this.roomService.updateRoom(clientUpdate);
-    sendRoomUpdate(updatedRoom);
+    if (Objects.nonNull(updatedRoom)) sendRoomUpdate(updatedRoom);
   }
 }

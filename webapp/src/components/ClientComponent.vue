@@ -33,6 +33,6 @@ export default {
 
 <style scoped>
 .card {
-  min-width: 10vw;
+  min-width: 25vw;
 }
 </style>

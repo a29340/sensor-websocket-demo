@@ -19,14 +19,13 @@
       </div>
     </section>
     <section class="section" v-if="showRoom">
-        <RoomComponent :room-name="room" :client-id="clientId" v-on:leave="leaveRoom()"/>
+      <RoomComponent :room-name="room" :client-id="clientId" v-on:leave="leaveRoom()"/>
     </section>
   </div>
 </template>
 
 <script>
 import RoomComponent from "@/components/RoomComponent";
-import WebsocketService from "@/services/WebsocketService";
 
 export default {
   name: 'App',
@@ -34,8 +33,7 @@ export default {
     return {
       room: '',
       clientId: '',
-      showRoom: false,
-      interval: undefined
+      showRoom: false
     }
   },
   components: {
@@ -64,14 +62,6 @@ export default {
             type: 'is-success is-light'
           })
           vue.$data.showRoom = true;
-          vue.$data.interval = setInterval(() => {
-            WebsocketService.send({
-              id: vue.$data.clientId,
-              alpha: 0,
-              beta: 0,
-              gamma: 0
-            })
-          }, 1000)
         } else {
           console.log(response)
           vue.$buefy.notification.open({
@@ -122,7 +112,6 @@ export default {
             type: 'is-success is-light'
           })
           vue.$data.showRoom = false;
-          clearInterval(vue.$data.interval)
         } else {
           console.log(response)
           vue.$buefy.notification.open({
@@ -138,5 +127,10 @@ export default {
 
 <style>
 #app {
+
+}
+
+button {
+  min-width: 7rem;
 }
 </style>

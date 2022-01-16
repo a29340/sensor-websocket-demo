@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.a29340</groupId>
     <artifactId>sensor-websocket-demo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.1.0</version>
     <name>sensor-websocket-demo</name>
     <description>sensor-websocket-demo</description>
     <properties>
